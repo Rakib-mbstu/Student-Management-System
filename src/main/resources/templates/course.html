@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="registerPage">Register Student</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{'/registerPage'}">Register Student</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Features</a>
@@ -45,28 +45,15 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Mobile</th>
-                            <th></th>
+                            <th>Course Name</th>
+                            <th>Course Details</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="studentList: ${studentList}">
-
-                                <td th:text="${studentList.Id}"></td>
-                                <td th:text="${studentList.firstName}"></td>
-                                <td th:text="${studentList.lastName}"></td>
-                                <td th:text="${studentList.mobileNumber}"></td>
-                                <td>
-                                    <a th:href="@{'showCourses/'+${studentList.id}}" class="btn btn-sm btn-primary">Courses</a>
-                                    <a class="btn btn-sm btn-primary" th:href="@{'updatePage/' + ${studentList.id}}">Edit</a>
-
-                                    <a th:href="@{'delete/'+${studentList.id}}"
-                                       class="btn btn-sm btn-danger"
-                                       onclick="return confirm('Are you sure?')"
-                                    >Delete</a>
-                                </td>
+                        <tr th:each="courseList: ${courseList}">
+                            <td th:text="${courseList.courseId}"></td>
+                            <td th:text="${courseList.courseName}"></td>
+                            <td th:text="${courseList.shortDetails}"></td>
                         </tr>
                         </tbody>
                     </table>
