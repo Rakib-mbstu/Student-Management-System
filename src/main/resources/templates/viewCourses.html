@@ -13,14 +13,17 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Home</a>
+        <a class="navbar-brand" href="/">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{'/registerPage'}">Register Student</a>
+                    <a class="nav-link active" aria-current="page" href="registerPage">Register Student</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="coursePage">Add Courses</a>
                 </li>
             </ul>
         </div>
@@ -31,7 +34,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header text-center ">
-                    <h4> All Student Details</h4>
+                    <h4> All Course Details</h4>
 
                 </div >
                 <div class="card-body">
@@ -41,13 +44,23 @@
                             <th>Id</th>
                             <th>Course Name</th>
                             <th>Course Details</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="courseList: ${courseList}">
+
                             <td th:text="${courseList.courseId}"></td>
                             <td th:text="${courseList.courseName}"></td>
                             <td th:text="${courseList.shortDetails}"></td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" th:href="@{'updateCoursePage/' + ${courseList.courseId}}">Edit</a>
+
+                                <a th:href="@{'deleteCourse/'+${courseList.courseId}}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure?')"
+                                >Delete</a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
