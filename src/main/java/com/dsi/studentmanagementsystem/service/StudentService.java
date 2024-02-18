@@ -1,12 +1,8 @@
-package com.dsi.studentmanagementsystem.Service;
+package com.dsi.studentmanagementsystem.service;
 
-import com.dsi.studentmanagementsystem.Dao.StudentRepository;
-import com.dsi.studentmanagementsystem.Entity.Student;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dsi.studentmanagementsystem.repository.StudentRepository;
+import com.dsi.studentmanagementsystem.entity.Student;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -35,4 +31,12 @@ public class StudentService {
         studentRepository.deleteById((long) id);
     }
 
+    public List<Student> findByName(String name) {
+        return studentRepository.findByFirstNameOrLastName(name);
+    }
+
+    public String findNameById(int id) {
+        Student student = studentRepository.findById(id);
+        return student.getFirstName() + " "+ student.getLastName();
+    }
 }

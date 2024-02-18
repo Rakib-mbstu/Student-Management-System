@@ -1,8 +1,8 @@
-package com.dsi.studentmanagementsystem.Controller;
+package com.dsi.studentmanagementsystem.controller;
 
-import com.dsi.studentmanagementsystem.Dao.CourseRepository;
-import com.dsi.studentmanagementsystem.Entity.Course;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dsi.studentmanagementsystem.repository.CourseRepository;
+import com.dsi.studentmanagementsystem.entity.Course;
+import com.dsi.studentmanagementsystem.service.CourseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class CourseController {
-    private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
-    public CourseController(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    public CourseController( CourseService courseService) {
+        this.courseService = courseService;
     }
 
     @RequestMapping(value = "/addCourse",method = RequestMethod.POST)
     public String saveCourses(Course course){
-        courseRepository.save(course);
+        courseService.save(course);
         return "redirect:/";
     }
     @RequestMapping("/viewCourses")
     public String viewCourses(Model model){
-        model.addAttribute("courseList",courseRepository.findAll());
+        model.addAttribute("courseList",courseService.findAll());
         return "viewCourses";
     }
     @RequestMapping(value = "/coursePage")
@@ -34,19 +34,19 @@ public class CourseController {
     }
     @RequestMapping("/updateCoursePage/{id}")
     public String updateCoursePage(@PathVariable("id") int id,Model model){
-        model.addAttribute("course",courseRepository.findByCourseId(id));
+        model.addAttribute("course",courseService.findByCourseId(id));
         return "updateCourse";
     }
     @RequestMapping(value = "/updateCourse",method = RequestMethod.POST)
     public String updateCoursePage(Course course){
-        System.out.println(course.getCourseName());
-        courseRepository.save(course);
+
+        courseService.save(course);
         return "redirect:/viewCourses";
     }
     @RequestMapping("/deleteCourse/{id}")
     public String delete(@PathVariable("id") int id)
     {
-        courseRepository.deleteById((long) id);
+        courseService.deleteById(id);
         return "redirect:/viewCourses";
     }
 }

@@ -1,10 +1,12 @@
-package com.dsi.studentmanagementsystem.Controller;
+package com.dsi.studentmanagementsystem.controller;
 
-import com.dsi.studentmanagementsystem.Service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dsi.studentmanagementsystem.entity.Student;
+import com.dsi.studentmanagementsystem.service.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 public class FrontController {

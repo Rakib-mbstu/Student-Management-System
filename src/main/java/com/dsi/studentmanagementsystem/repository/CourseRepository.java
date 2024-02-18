@@ -1,11 +1,8 @@
-package com.dsi.studentmanagementsystem.Dao;
+package com.dsi.studentmanagementsystem.repository;
 
-import com.dsi.studentmanagementsystem.Entity.Course;
+import com.dsi.studentmanagementsystem.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course,Long> {

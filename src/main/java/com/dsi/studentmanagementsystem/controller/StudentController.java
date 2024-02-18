@@ -1,18 +1,16 @@
-package com.dsi.studentmanagementsystem.Controller;
+package com.dsi.studentmanagementsystem.controller;
 
-import com.dsi.studentmanagementsystem.Entity.Course;
-import com.dsi.studentmanagementsystem.Entity.Student;
-import com.dsi.studentmanagementsystem.Service.CourseService;
-import com.dsi.studentmanagementsystem.Service.StudentService;
-import org.hibernate.boot.archive.scan.internal.ScanResultImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dsi.studentmanagementsystem.entity.Course;
+import com.dsi.studentmanagementsystem.entity.Student;
+import com.dsi.studentmanagementsystem.service.CourseService;
+import com.dsi.studentmanagementsystem.service.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,7 +26,6 @@ public class StudentController {
     @RequestMapping("/registerStudent")
     public String registerStudent(Student student, @RequestParam(value = "selectedIds",required = false) String[] selectedIds)
     {
-        System.out.println(selectedIds.length);
         List<Course> courseList = courseService.courses(selectedIds);
         student.setCourseList(courseList);
         for(Course course:courseList)
@@ -55,7 +52,6 @@ public class StudentController {
     @RequestMapping("/updateStudent")
     public String updateStudent(Student student)
     {
-        System.out.println(student.toString());
         studentService.save(student);
         return "redirect:/";
     }
@@ -68,8 +64,13 @@ public class StudentController {
     @RequestMapping("/showCourses/{id}")
     public String showCourses(@PathVariable("id") int id, Model model)
     {
-        System.out.println("okay");
         model.addAttribute("courseList",studentService.findById(id).getCourseList());
+        model.addAttribute("name",studentService.findNameById(id));
         return "course";
+    }
+    @RequestMapping("/search")
+    public String searchByName(@RequestParam String name, RedirectAttributes model){
+        model.addFlashAttribute("matched",studentService.findByName(name));
+        return "redirect:/";
     }
 }

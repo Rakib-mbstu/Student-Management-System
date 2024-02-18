@@ -1,9 +1,7 @@
-package com.dsi.studentmanagementsystem.Service;
+package com.dsi.studentmanagementsystem.service;
 
-import com.dsi.studentmanagementsystem.Dao.CourseRepository;
-import com.dsi.studentmanagementsystem.Entity.Course;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dsi.studentmanagementsystem.repository.CourseRepository;
+import com.dsi.studentmanagementsystem.entity.Course;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ public class CourseService {
     public void save(Course course){
         courseRepository.save(course);
     }
-    public List<Course> courses(){
+    public List<Course> findAll(){
         List<Course> list;
         list = courseRepository.findAll();
         return list;
@@ -30,8 +28,20 @@ public class CourseService {
         List<Course> courseList = new ArrayList<>();
         for(String id:strings)
         {
-            courseList.add(courseRepository.findByCourseId(Integer.valueOf(id)));
+            courseList.add(courseRepository.findByCourseId(Integer.parseInt(id)));
         }
         return courseList;
+    }
+    public List<Course> courses()
+    {
+        return courseRepository.findAll();
+    }
+
+    public Course findByCourseId(int id) {
+        return courseRepository.findByCourseId(id);
+    }
+
+    public void deleteById(int id) {
+        courseRepository.deleteById((long) id);
     }
 }
