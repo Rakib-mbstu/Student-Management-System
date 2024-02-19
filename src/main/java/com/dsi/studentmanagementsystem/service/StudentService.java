@@ -2,6 +2,8 @@ package com.dsi.studentmanagementsystem.service;
 
 import com.dsi.studentmanagementsystem.repository.StudentRepository;
 import com.dsi.studentmanagementsystem.entity.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +17,11 @@ public class StudentService {
     }
 
     public void save(Student student){
-
         studentRepository.save(student);
     }
 
-    public List<Student> findAll() {
-        return studentRepository.findAll();
+    public Page<Student> findAll(Pageable pageable) {
+        return studentRepository.findAll(pageable);
     }
 
     public Student findById(int id) {

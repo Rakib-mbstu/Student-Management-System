@@ -43,6 +43,7 @@ public class StudentController {
         model.addAttribute("list",list);
         return "register";
     }
+
     @RequestMapping("/updatePage/{id}")
     public String update(@PathVariable("id") int id,Model model)
     {
