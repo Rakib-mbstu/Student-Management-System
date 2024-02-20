@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class FrontController {
@@ -21,26 +22,26 @@ public class FrontController {
         this.studentService = studentService;
     }
 
+//    @RequestMapping("/")
+//    public String frontPage(Model model){
+//        Pageable pageable = PageRequest.of(0,10);
+//        Page<Student> page = studentService.findAll(pageable);
+//        List<Student> studentList = page.getContent();
+//        model.addAttribute("studentList",studentList);
+//        model.addAttribute("currentPage",0);
+//        model.addAttribute("totalPage",page.getTotalPages());
+//        model.addAttribute("totalItems",page.getTotalElements());
+//        return "home";
+//    }
     @RequestMapping("/")
-    public String frontPage(Model model){
-        Pageable pageable = PageRequest.of(0,10);
+    public String pages(@RequestParam("page") Optional<Integer> pageNumber,@RequestParam("items") Optional<Integer> items, Model model){
+        Pageable pageable = PageRequest.of(pageNumber.orElse(0),items.orElse(10));
         Page<Student> page = studentService.findAll(pageable);
         List<Student> studentList = page.getContent();
         model.addAttribute("studentList",studentList);
-        model.addAttribute("currentPage",0);
+        model.addAttribute("currentPage",pageNumber.orElse(0));
         model.addAttribute("totalPage",page.getTotalPages());
-        model.addAttribute("totalItems",page.getTotalElements());
-        return "home";
-    }
-    @RequestMapping("/page/{number}")
-    public String pages(@PathVariable("number") int pageNumber,Model model){
-        Pageable pageable = PageRequest.of(pageNumber,10);
-        Page<Student> page = studentService.findAll(pageable);
-        List<Student> studentList = page.getContent();
-        model.addAttribute("studentList",studentList);
-        model.addAttribute("currentPage",pageNumber);
-        model.addAttribute("totalPage",page.getTotalPages());
-        model.addAttribute("totalItems",page.getTotalElements());
+        model.addAttribute("items",items.orElse(10));
         return "home";
     }
 }
