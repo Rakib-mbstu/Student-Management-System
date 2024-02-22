@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Home</a>
+        <a class="navbar-brand" th:href="@{/}">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -116,6 +116,7 @@
                 <div class="card-footer text-center">
                     <ul class="pagination">
                         <form th:action="@{'/?page='+${currentPage}}" method="post">
+                            <input th:name="previousItems" th:value="${items}" type="hidden">
                             <select th:name="items" class="form-select" onchange='if(this.value!==0){this.form.submit()}'>
                                 <option>[[${items}]]</option>
                                 <option th:if="${items != 5}" th:value="5">5</option>

@@ -2,6 +2,8 @@ package com.dsi.studentmanagementsystem.controller;
 
 import com.dsi.studentmanagementsystem.entity.Student;
 import com.dsi.studentmanagementsystem.service.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +24,7 @@ public class FrontController {
         this.studentService = studentService;
     }
 
-//    @RequestMapping("/")
+    //    @RequestMapping("/")
 //    public String frontPage(Model model){
 //        Pageable pageable = PageRequest.of(0,10);
 //        Page<Student> page = studentService.findAll(pageable);
@@ -34,14 +36,26 @@ public class FrontController {
 //        return "home";
 //    }
     @RequestMapping("/")
-    public String pages(@RequestParam("page") Optional<Integer> pageNumber,@RequestParam("items") Optional<Integer> items, Model model){
-        Pageable pageable = PageRequest.of(pageNumber.orElse(0),items.orElse(10));
-        Page<Student> page = studentService.findAll(pageable);
-        List<Student> studentList = page.getContent();
-        model.addAttribute("studentList",studentList);
-        model.addAttribute("currentPage",pageNumber.orElse(0));
-        model.addAttribute("totalPage",page.getTotalPages());
-        model.addAttribute("items",items.orElse(10));
+    public String pages(@RequestParam("page") Optional<Integer> pageNumber,
+                        @RequestParam("items") Optional<Integer> items,
+                        @RequestParam("previousItems") Optional<Integer> previousItems,
+                        Model model) {
+        Logger logger = LoggerFactory.getLogger(FrontController.class);
+        logger.info(String.valueOf(previousItems));
+        int page = pageNumber.orElse(0);
+        if(!previousItems.isEmpty())
+        {
+            int prev = previousItems.orElse(10);
+            int item = items.orElse(10);
+            page = (page*prev)/item;
+        }
+        Pageable pageable = PageRequest.of(page, items.orElse(10));
+        Page<Student> pages = studentService.findAll(pageable);
+        List<Student> studentList = pages.getContent();
+        model.addAttribute("studentList", studentList);
+        model.addAttribute("currentPage", pageNumber.orElse(0));
+        model.addAttribute("totalPage", pages.getTotalPages());
+        model.addAttribute("items", items.orElse(10));
         return "home";
     }
 }
