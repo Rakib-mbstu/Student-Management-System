@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Home</a>
+        <a class="navbar-brand" th:href="@{/}">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,13 +21,13 @@
         <div class="collapse navbar-collapse" id="navbarNav" >
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="registerPage">Register Student</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/registerPage}">Register Student</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="coursePage">Add Courses</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/coursePage}">Add Courses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="viewCourses">View Courses</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/viewCourses}">View Courses</a>
                 </li>
             </ul>
             <form class="d-flex ms-auto" action="search">
@@ -112,6 +112,29 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="card-footer text-center">
+                    <ul class="pagination">
+                        <form th:action="@{'/?page='+${currentPage}}" method="post">
+                            <input th:name="previousItems" th:value="${items}" type="hidden">
+                            <select th:name="items" class="form-select" onchange='if(this.value!==0){this.form.submit()}'>
+                                <option>[[${items}]]</option>
+                                <option th:if="${items != 5}" th:value="5">5</option>
+                                <option th:if="${items != 10}" th:value="10">10</option>
+                                <option th:if="${items != 20}" th:value="20">20</option>
+                            </select>
+                        </form>
+                        <li th:if="${currentPage != 0 }">
+                            <a th:href="@{'?page=' + ${currentPage - 1}}">&lt;<<</a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(0, totalPage - 1)}"
+                            th:class="${currentPage == i} ? 'active' : ''">
+                            <a th:href="@{'?page=' + ${i}}" th:text="${i + 1}"></a>|
+                        </li>
+                        <li th:if="${currentPage != totalPage - 1}">
+                            <a th:href="@{'?page=' + ${currentPage + 1}}">&gt;>></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

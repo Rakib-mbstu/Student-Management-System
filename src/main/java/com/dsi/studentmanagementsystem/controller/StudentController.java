@@ -26,14 +26,7 @@ public class StudentController {
     @RequestMapping("/registerStudent")
     public String registerStudent(Student student, @RequestParam(value = "selectedIds",required = false) String[] selectedIds)
     {
-        List<Course> courseList = courseService.courses(selectedIds);
-        student.setCourseList(courseList);
-        for(Course course:courseList)
-        {
-            List<Student> studentList = course.getStudentList();
-            studentList.add(student);
-        }
-        studentService.save(student);
+        studentService.save(student,selectedIds);
         return "redirect:/";
     }
     @RequestMapping("registerPage")
@@ -43,6 +36,7 @@ public class StudentController {
         model.addAttribute("list",list);
         return "register";
     }
+
     @RequestMapping("/updatePage/{id}")
     public String update(@PathVariable("id") int id,Model model)
     {
