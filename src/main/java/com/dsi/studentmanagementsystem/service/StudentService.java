@@ -38,6 +38,10 @@ public class StudentService {
         return studentRepository.findAll(pageable);
     }
 
+    public List<Student> findAll(){
+        return studentRepository.findAll();
+    }
+
     public Student findById(int id) {
         return studentRepository.findById(id);
     }

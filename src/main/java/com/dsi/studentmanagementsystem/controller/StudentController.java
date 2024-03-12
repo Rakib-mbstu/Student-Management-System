@@ -29,6 +29,7 @@ public class StudentController {
         this.studentService = studentService;
         this.courseService = courseService;
     }
+
     @RequestMapping("/")
     public String pages(@RequestParam("page") Optional<Integer> pageNumber,
                         @RequestParam("item") Optional<Integer> items,
@@ -38,15 +39,14 @@ public class StudentController {
         int page = pageNumber.orElse(0);
         boolean changePage = false;
         int newPageNumber = 0;
-        if(previousItems.isPresent())
-        {
+        if (previousItems.isPresent()) {
             int prev = previousItems.orElse(10);
             int t_item = items.orElse(10);
-            page = (page*prev)/t_item;
+            page = (page * prev) / t_item;
             logger.info(String.valueOf(page));
             pageNumber = Optional.of(page);
             newPageNumber = page;
-            logger.info("page : "+String.valueOf(pageNumber));
+            logger.info("page : " + String.valueOf(pageNumber));
             changePage = true;
         }
         Pageable pageable = PageRequest.of(page, items.orElse(10));
@@ -57,52 +57,51 @@ public class StudentController {
         model.addAttribute("totalPage", pages.getTotalPages());
         model.addAttribute("items", items.orElse(10));
 
-
         return "home";
     }
 
+
     @RequestMapping("/registerStudent")
-    public String registerStudent(Student student, @RequestParam(value = "selectedIds",required = false) String[] selectedIds)
-    {
-        studentService.save(student,selectedIds);
+    public String registerStudent(Student student, @RequestParam(value = "selectedIds", required = false) String[] selectedIds) {
+        studentService.save(student, selectedIds);
         return "redirect:/";
     }
+
     @RequestMapping("registerPage")
-    public String register(Model model)
-    {
+    public String register(Model model) {
         List<Course> list = courseService.courses();
-        model.addAttribute("list",list);
+        model.addAttribute("list", list);
         return "register";
     }
 
     @RequestMapping("/updatePage/{id}")
-    public String update(@PathVariable("id") int id,Model model)
-    {
-        model.addAttribute("student",studentService.findById(id));
+    public String update(@PathVariable("id") int id, Model model) {
+        model.addAttribute("student", studentService.findById(id));
         return "update";
     }
+
     @RequestMapping("/updateStudent")
-    public String updateStudent(Student student)
-    {
+    public String updateStudent(Student student) {
         studentService.save(student);
         return "redirect:/";
     }
+
     @RequestMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable("id") int id)
-    {
+    public String deleteStudent(@PathVariable("id") int id) {
         studentService.deleteById(id);
         return "redirect:/";
     }
+
     @RequestMapping("/showCourses/{id}")
-    public String showCourses(@PathVariable("id") int id, Model model)
-    {
-        model.addAttribute("courseList",studentService.findById(id).getCourseList());
-        model.addAttribute("name",studentService.findNameById(id));
+    public String showCourses(@PathVariable("id") int id, Model model) {
+        model.addAttribute("courseList", studentService.findById(id).getCourseList());
+        model.addAttribute("name", studentService.findNameById(id));
         return "course";
     }
+
     @RequestMapping("/search")
-    public String searchByName(@RequestParam String name, RedirectAttributes model){
-        model.addFlashAttribute("matched",studentService.findByName(name));
+    public String searchByName(@RequestParam String name, RedirectAttributes model) {
+        model.addFlashAttribute("matched", studentService.findByName(name));
         return "redirect:/";
     }
 }

@@ -20,7 +20,7 @@ public class CourseController {
     @RequestMapping(value = "/addCourse",method = RequestMethod.POST)
     public String saveCourses(Course course){
         courseService.save(course);
-        return "redirect:/";
+        return "redirect:/viewCourses";
     }
     @RequestMapping("/viewCourses")
     public String viewCourses(Model model){
