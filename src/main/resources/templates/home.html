@@ -103,7 +103,6 @@
                                    class="btn btn-sm btn-primary">Courses</a>
                                 <a class="btn btn-sm btn-primary"
                                    th:href="@{'updatePage/' + ${studentList.id}}">Edit</a>
-
                                 <a th:href="@{'delete/'+${studentList.id}}"
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Are you sure?')"
@@ -117,7 +116,7 @@
                     <ul class="pagination">
                         <form th:action="@{'/?page='+${currentPage}}" method="post">
                             <input th:name="previousItems" th:value="${items}" type="hidden">
-                            <select th:name="items" class="form-select" onchange='if(this.value!==0){this.form.submit()}'>
+                            <select th:name="item" class="form-select" onchange='if(this.value!==0){this.form.submit()}'>
                                 <option>[[${items}]]</option>
                                 <option th:if="${items != 5}" th:value="5">5</option>
                                 <option th:if="${items != 10}" th:value="10">10</option>
@@ -125,14 +124,14 @@
                             </select>
                         </form>
                         <li th:if="${currentPage != 0 }">
-                            <a th:href="@{'?page=' + ${currentPage - 1}}">&lt;<<</a>
+                            <a th:href="@{'?page=' + ${currentPage - 1}+'&item='+${items}}">&lt;<<</a>
                         </li>
                         <li th:each="i : ${#numbers.sequence(0, totalPage - 1)}"
                             th:class="${currentPage == i} ? 'active' : ''">
-                            <a th:href="@{'?page=' + ${i}}" th:text="${i + 1}"></a>|
+                            <a th:href="@{'?page=' + ${i}+'&item='+${items}}" th:text="${i + 1}"></a>|
                         </li>
                         <li th:if="${currentPage != totalPage - 1}">
-                            <a th:href="@{'?page=' + ${currentPage + 1}}">&gt;>></a>
+                            <a th:href="@{'?page=' + ${currentPage + 1}+'&item='+${items}}">&gt;>></a>
                         </li>
                     </ul>
                 </div>
